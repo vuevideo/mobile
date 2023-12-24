@@ -1,0 +1,14 @@
+name: authentication_repository
+description: "VueVideo Mobile Authentication Repository"
+publish_to: 'none'
+version: 1.0.0+1
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  json_annotation: ^4.8.0
+  equatable: ^2.0.0
+
+dev_dependencies:
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.0
