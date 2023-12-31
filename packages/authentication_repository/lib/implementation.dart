@@ -36,15 +36,66 @@ class AuthenticationRepository {
     }
   }
 
-  /// Register a new account using [emailAddress] and [password].
+  /// Stream of [Credentials] which will emit the current user when
+  /// the authentication state changes.
+  ///
+  /// Emits [Credentials.empty] if the user is not authenticated.
+  Stream<Future<Credentials>> get user {
+    return _firebaseAuth.authStateChanges().map((firebaseUser) async {
+      return await fetchLoggedInUser();
+    });
+  }
+
+  /// Fetch credentials from server using Firebase Authentication
+  ///
+  /// Throws [ServerException] if any errors according to the server.
+  Future<Credentials> fetchLoggedInUser() async {
+    // If no user is logged in, return empty credentials.
+    if (this._firebaseAuth.currentUser == null) {
+      return Credentials.empty();
+    }
+
+    // Prepare URI for the request.
+    Uri uri = Uri.parse("$_apiUrl/api/v1/user");
+
+    // Fetch the ID token for the user.
+    String firebaseAuthToken =
+        await this._firebaseAuth.currentUser!.getIdToken();
+
+    // Prepare authorization headers.
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $firebaseAuthToken',
+    };
+
+    // Send the get request to the server.
+    http.Response response = await http.get(
+      uri,
+      headers: headers,
+    );
+
+    // Check for any errors.
+    _validateRequestAndThrowError(
+      response: response,
+      errorLogName: "AuthenticationRepository:fetchLoggedInUser",
+    );
+
+    // Decode JSON and create object based on it.
+    dynamic jsonResponse = json.decode(response.body);
+    Credentials credentials = Credentials.fromJson(jsonResponse);
+
+    // Return credentials.
+    return credentials;
+  }
+
+  /// Register a new account using [createAccountDto].
   ///
   /// Throws [ServerException] if any errors according to the server.
   Future<Credentials> registerWithEmailAndPassword({
-    required String emailAddress,
-    required String password,
+    required CreateAccountDto createAccountDto,
   }) async {
     // Prepare URI for the request.
-    Uri uri = Uri.parse("$_apiUrl/doctor/specialization");
+    Uri uri = Uri.parse("$_apiUrl/api/v1/auth");
 
     // Prepare authorization headers.
     Map<String, String> headers = {
@@ -55,6 +106,7 @@ class AuthenticationRepository {
     http.Response response = await http.post(
       uri,
       headers: headers,
+      body: createAccountDto.toJson(),
     );
 
     // Check for any errors.
@@ -71,17 +123,15 @@ class AuthenticationRepository {
     return credentials;
   }
 
-  /// Signs in with the provided [emailAddress] and [password].
+  /// Signs in with the provided [loginAccountDto].
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> logInWithEmailAndPassword({
-    required String emailAddress,
-    required String password,
-  }) async {
+  Future<void> logInWithEmailAndPassword(
+      {required LoginAccountDto loginAccountDto}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
+        email: loginAccountDto.emailAddress,
+        password: loginAccountDto.password,
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
