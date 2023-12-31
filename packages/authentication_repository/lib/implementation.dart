@@ -36,7 +36,9 @@ class AuthenticationRepository {
     }
   }
 
-  /// Register a new account using email and password.
+  /// Register a new account using [emailAddress] and [password].
+  ///
+  /// Throws [ServerException] if any errors according to the server.
   Future<Credentials> registerWithEmailAndPassword({
     required String emailAddress,
     required String password,
@@ -67,5 +69,29 @@ class AuthenticationRepository {
 
     // Return credentials.
     return credentials;
+  }
+
+  /// Signs in with the provided [emailAddress] and [password].
+  ///
+  /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
+  Future<void> logInWithEmailAndPassword({
+    required String emailAddress,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
+    } catch (error) {
+      log.e(
+        "AuthenticationRepository:logInWithEmailAndPassword Error",
+        error: error,
+      );
+
+      throw const LogInWithEmailAndPasswordFailure();
+    }
   }
 }
