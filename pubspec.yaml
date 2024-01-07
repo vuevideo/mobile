@@ -9,6 +9,16 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  equatable: ^2.0.5
+  flutter_bloc: ^8.0.0
+  bloc: ^8.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  logger: ^2.0.2+1
+  authentication_repository:
+    path: packages/authentication_repository
 
 dev_dependencies:
   flutter_test:
