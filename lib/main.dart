@@ -4,22 +4,33 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import 'package:bloc/bloc.dart';
 
 import 'package:authentication_repository/authentication_repository.dart';
 
 import 'package:mobile/app/app.dart';
 import 'firebase_options.dart';
 
+/// Initialize all bits and pieces of Hive database.
+Future<void> initializeHive() async {
+
+  // Initialize Hive database.
+  await Hive.initFlutter();
+
+  // Register all model adapters for Hive.
+  Hive.registerAdapter<Account>(AccountAdapter());
+  Hive.registerAdapter<Credentials>(CredentialsAdapter());
+  Hive.registerAdapter<ProfileImage>(ProfileImageAdapter());
+
+  // Open all hive boxes for use.
+  await Hive.openBox<Credentials>(AUTHENTICATION_HIVE_BOX);
+
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Bloc observer = const AppBlocObserver() as Bloc;
 
-  await Hive.initFlutter();
-  await Hive.openBox<dynamic>(AUTHENTICATION_HIVE_BOX);
+  await initializeHive();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
