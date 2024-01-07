@@ -6,7 +6,7 @@ import 'package:authentication_repository/model/model.dart';
 part 'account.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 549988)
+@HiveType(typeId: 1)
 class Account extends Equatable {
   @JsonKey(defaultValue: '')
   @HiveField(0, defaultValue: '')

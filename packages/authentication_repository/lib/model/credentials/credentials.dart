@@ -9,7 +9,7 @@ import 'package:const_date_time/const_date_time.dart';
 part 'credentials.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 947447)
+@HiveType(typeId: 2)
 class Credentials extends Equatable {
   @JsonKey(defaultValue: '')
   @HiveField(0, defaultValue: '')

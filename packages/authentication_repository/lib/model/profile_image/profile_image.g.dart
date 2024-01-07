@@ -8,7 +8,7 @@ part of 'profile_image.dart';
 
 class ProfileImageAdapter extends TypeAdapter<ProfileImage> {
   @override
-  final int typeId = 123484;
+  final int typeId = 3;
 
   @override
   ProfileImage read(BinaryReader reader) {

@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'profile_image.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 123484)
+@HiveType(typeId: 3)
 class ProfileImage extends Equatable {
   @JsonKey(defaultValue: '')
   @HiveField(0, defaultValue: '')
