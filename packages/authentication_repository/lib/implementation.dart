@@ -7,12 +7,15 @@ import 'dart:convert';
 class AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final String _apiUrl;
+  final OfflineAuthentication _offlineAuthentication;
 
   AuthenticationRepository({
     required firebase_auth.FirebaseAuth firebaseAuth,
     required String apiUrl,
+    required OfflineAuthentication offlineAuthentication,
   })  : _firebaseAuth = firebaseAuth,
-        _apiUrl = apiUrl;
+        _apiUrl = apiUrl,
+        _offlineAuthentication = offlineAuthentication;
 
   /// Validate HTTP requests and check for errors.
   /// If errors exist, throw the appropriate error.
@@ -42,8 +45,17 @@ class AuthenticationRepository {
   /// Emits [Credentials.empty] if the user is not authenticated.
   Stream<Future<Credentials>> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) async {
-      return await fetchLoggedInUser();
+      Credentials credentials = await fetchLoggedInUser();
+
+      this._offlineAuthentication.saveCredentialsToDevice(credentials);
+
+      return credentials;
     });
+  }
+
+  /// Get current user regardless of authentication status.
+  Credentials get currentUser {
+    return this._offlineAuthentication.fetchCredentialsFromDevice();
   }
 
   /// Fetch credentials from server using Firebase Authentication
@@ -59,7 +71,7 @@ class AuthenticationRepository {
     Uri uri = Uri.parse("$_apiUrl/api/v1/user");
 
     // Fetch the ID token for the user.
-    String firebaseAuthToken =
+    String? firebaseAuthToken =
         await this._firebaseAuth.currentUser!.getIdToken();
 
     // Prepare authorization headers.
@@ -142,6 +154,18 @@ class AuthenticationRepository {
       );
 
       throw const LogInWithEmailAndPasswordFailure();
+    }
+  }
+
+  /// Signs out the current user.
+  ///
+  /// Throws a [LogOutException] if an exception occurs.
+  Future<void> logOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      this._offlineAuthentication.clearStorage();
+    } catch (_) {
+      throw LogOutException();
     }
   }
 }
