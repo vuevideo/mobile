@@ -20,11 +20,10 @@ class ProfileImage extends Equatable {
     required this.storageUuid,
   });
 
-  factory ProfileImage.empty() => ProfileImage(
-        id: "",
-        imageLink: "",
-        storageUuid: "",
-      );
+  const ProfileImage.empty()
+      : this.id = '',
+        this.imageLink = '',
+        this.storageUuid = '';
 
   factory ProfileImage.fromJson(Map<String, dynamic> json) =>
       _$ProfileImageFromJson(json);
@@ -33,4 +32,8 @@ class ProfileImage extends Equatable {
 
   @override
   List<Object?> get props => [id, imageLink, storageUuid];
+
+  bool isEmpty() {
+    return this == const ProfileImage.empty();
+  }
 }

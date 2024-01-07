@@ -24,12 +24,11 @@ class Account extends Equatable {
     required this.image,
   });
 
-  factory Account.empty() => Account(
-        id: '',
-        name: '',
-        username: '',
-        image: ProfileImage.empty(),
-      );
+  const Account.empty()
+      : this.id = '',
+        this.name = '',
+        this.username = '',
+        this.image = const ProfileImage.empty();
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
@@ -38,4 +37,8 @@ class Account extends Equatable {
 
   @override
   List<Object?> get props => [id, name, username];
+
+  bool isEmpty() {
+    return this == const Account.empty();
+  }
 }
