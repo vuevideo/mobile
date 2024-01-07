@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:authentication_repository/model/model.dart';
@@ -8,16 +9,23 @@ import 'package:const_date_time/const_date_time.dart';
 part 'credentials.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: 947447)
 class Credentials extends Equatable {
   @JsonKey(defaultValue: '')
+  @HiveField(0, defaultValue: '')
   final String id;
 
   @JsonKey(defaultValue: '')
+  @HiveField(1, defaultValue: '')
   final String emailAddress;
 
+  @HiveField(2, defaultValue: const Account.empty())
   final Account account;
 
+  @HiveField(3, defaultValue: const ConstDateTime(0))
   final DateTime createdAt;
+
+  @HiveField(4, defaultValue: const ConstDateTime(0))
   final DateTime updatedAt;
 
   Credentials({

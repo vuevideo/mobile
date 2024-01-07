@@ -1,17 +1,22 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profile_image.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: 123484)
 class ProfileImage extends Equatable {
   @JsonKey(defaultValue: '')
+  @HiveField(0, defaultValue: '')
   final String id;
 
   @JsonKey(defaultValue: '')
+  @HiveField(1, defaultValue: '')
   final String imageLink;
 
   @JsonKey(defaultValue: '')
+  @HiveField(2, defaultValue: '')
   final String storageUuid;
 
   const ProfileImage({
