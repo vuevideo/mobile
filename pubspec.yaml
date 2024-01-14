@@ -17,8 +17,13 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   logger: ^2.0.2+1
+  formz: ^0.6.1
   authentication_repository:
     path: packages/authentication_repository
+  form_inputs:
+    path: packages/form_inputs
+  log:
+    path: packages/log
 
 dev_dependencies:
   flutter_test:
