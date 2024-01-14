@@ -111,6 +111,12 @@ class RegisterCubit extends Cubit<RegisterState> {
       await _authenticationRepository.registerWithEmailAndPassword(
         createAccountDto: createAccountDto,
       );
+
+      emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+        ),
+      );
     } on RegisterWithEmailAndPasswordFailure catch (error) {
       emit(
         state.copyWith(

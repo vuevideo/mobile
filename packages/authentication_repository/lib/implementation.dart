@@ -77,7 +77,6 @@ class AuthenticationRepository {
 
     // Prepare authorization headers.
     Map<String, String> headers = {
-      'Content-Type': 'application/json',
       'Authorization': 'Bearer $firebaseAuthToken',
     };
 
@@ -118,7 +117,7 @@ class AuthenticationRepository {
     // Send the post request to the server.
     http.Response response = await http.post(
       uri,
-      headers: headers,
+      // headers: headers,
       body: createAccountDto.toJson(),
     );
 
@@ -130,6 +129,7 @@ class AuthenticationRepository {
 
     // Decode JSON and create object based on it.
     dynamic jsonResponse = json.decode(response.body);
+    log.i(jsonResponse);
     Credentials credentials = Credentials.fromJson(jsonResponse);
 
     // Return credentials.

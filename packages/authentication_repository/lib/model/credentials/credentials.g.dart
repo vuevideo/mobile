@@ -61,7 +61,9 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
 Credentials _$CredentialsFromJson(Map<String, dynamic> json) => Credentials(
       id: json['id'] as String? ?? '',
       emailAddress: json['emailAddress'] as String? ?? '',
-      account: Account.fromJson(json['account'] as Map<String, dynamic>),
+      account: json['account'] == null
+          ? const Account.empty()
+          : Account.fromJson(json['account'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
