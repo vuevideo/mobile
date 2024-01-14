@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:log/log.dart';
 
 part 'register_state.dart';
 
@@ -86,5 +87,47 @@ class RegisterCubit extends Cubit<RegisterState> {
         ),
       ),
     );
+  }
+
+  Future<void> registerWithEmailAddressAndPassword() async {
+    if (!state.isValid) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+      ),
+    );
+
+    try {
+      CreateAccountDto createAccountDto = CreateAccountDto(
+        emailAddress: state.email.value,
+        username: state.userName.value,
+        password: state.password.value,
+        name: state.name.value,
+      );
+
+      await _authenticationRepository.registerWithEmailAndPassword(
+        createAccountDto: createAccountDto,
+      );
+    } on RegisterWithEmailAndPasswordFailure catch (error) {
+      emit(
+        state.copyWith(
+          errorMessage: error.message,
+        ),
+      );
+    } catch (error, stackTrace) {
+      emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.failure,
+        ),
+      );
+      log.e(
+        "RegisterCubit:registerWithEmailAddressAndPassword Error",
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 }

@@ -22,6 +22,8 @@ dependencies:
     path: packages/authentication_repository
   form_inputs:
     path: packages/form_inputs
+  log:
+    path: packages/log
 
 dev_dependencies:
   flutter_test:
