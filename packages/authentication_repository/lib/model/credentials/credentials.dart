@@ -31,7 +31,7 @@ class Credentials extends Equatable {
   Credentials({
     required this.id,
     required this.emailAddress,
-    required this.account,
+    this.account = const Account.empty(),
     required this.createdAt,
     required this.updatedAt,
   });

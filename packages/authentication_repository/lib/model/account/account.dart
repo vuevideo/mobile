@@ -27,7 +27,7 @@ class Account extends Equatable {
     required this.id,
     required this.name,
     required this.username,
-    required this.image,
+    this.image = const ProfileImage.empty(),
   });
 
   const Account.empty()
