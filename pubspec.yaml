@@ -20,6 +20,8 @@ dependencies:
   formz: ^0.6.1
   authentication_repository:
     path: packages/authentication_repository
+  form_inputs:
+    path: packages/form_inputs
 
 dev_dependencies:
   flutter_test:
