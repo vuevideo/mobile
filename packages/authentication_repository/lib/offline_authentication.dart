@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:hive/hive.dart';
+import 'package:log/log.dart';
 
 /// Repository for interacting with offline Hive database.
 class OfflineAuthentication {
