@@ -121,6 +121,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(
         state.copyWith(
           errorMessage: error.message,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (error, stackTrace) {
