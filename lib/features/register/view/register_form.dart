@@ -21,6 +21,8 @@ class RegisterForm extends StatelessWidget {
                 ),
               ),
             );
+
+          context.read<RegisterCubit>().acknowledgeError();
         }
       },
       child: Align(
@@ -84,7 +86,7 @@ class _UserNameInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'User Name',
             helperText: '',
-            errorText: registerState.name.displayError != null
+            errorText: registerState.userName.displayError != null
                 ? 'Invalid User Name'
                 : null,
           ),
@@ -110,7 +112,7 @@ class _EmailInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Email',
             helperText: '',
-            errorText: registerState.name.displayError != null
+            errorText: registerState.email.displayError != null
                 ? 'Invalid Email'
                 : null,
           ),
@@ -137,7 +139,7 @@ class _PasswordInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Password',
             helperText: '',
-            errorText: registerState.name.displayError != null
+            errorText: registerState.password.displayError != null
                 ? 'Invalid Password'
                 : null,
           ),

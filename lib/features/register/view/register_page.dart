@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/features/register/register.dart';
 
 class RegisterPage extends StatefulWidget {
+
+  static String routeName = "register_page";
+  static String routePath = "/register";
+
   const RegisterPage({super.key});
 
   static Page<void> page() => const MaterialPage<void>(child: RegisterPage());

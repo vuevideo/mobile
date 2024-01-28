@@ -89,6 +89,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
+  void acknowledgeError() {
+    emit(
+      state.copyWith(
+        status: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+
   Future<void> registerWithEmailAddressAndPassword() async {
     if (!state.isValid) {
       return;
