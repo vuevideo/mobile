@@ -21,14 +21,15 @@ final class RegisterState extends Equatable {
     this.errorMessage,
   });
 
-  RegisterState copyWith(
-      {Name? name,
-      UserName? userName,
-      Email? email,
-      Password? password,
-      FormzSubmissionStatus? status,
-      bool? isValid,
-      String? errorMessage}) {
+  RegisterState copyWith({
+    Name? name,
+    UserName? userName,
+    Email? email,
+    Password? password,
+    FormzSubmissionStatus? status,
+    bool? isValid,
+    String? errorMessage,
+  }) {
     return RegisterState(
       name: name ?? this.name,
       userName: userName ?? this.userName,
