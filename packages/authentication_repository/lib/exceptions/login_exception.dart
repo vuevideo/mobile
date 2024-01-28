@@ -23,6 +23,10 @@ class LogInWithEmailAndPasswordFailure implements Exception {
         return const LogInWithEmailAndPasswordFailure(
           'Incorrect password, please try again.',
         );
+      case 'invalid-credential':
+        return const LogInWithEmailAndPasswordFailure(
+          'Incorrect email or password, please try again.',
+        );
       default:
         return const LogInWithEmailAndPasswordFailure();
     }
