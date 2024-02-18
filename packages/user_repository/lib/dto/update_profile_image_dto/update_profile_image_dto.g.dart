@@ -10,7 +10,7 @@ UpdateProfileImageDto _$UpdateProfileImageDtoFromJson(
         Map<String, dynamic> json) =>
     UpdateProfileImageDto(
       imageLink: json['imageLink'] as String? ?? '',
-      storageUuid: json['storageUuid'] as String,
+      storageUuid: json['storageUuid'] as String? ?? '',
     );
 
 Map<String, dynamic> _$UpdateProfileImageDtoToJson(
