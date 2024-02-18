@@ -7,6 +7,8 @@ part 'update_user_dto.g.dart';
 class UpdateUserDto extends Equatable {
   @JsonKey(defaultValue: '')
   final String username;
+
+  @JsonKey(defaultValue: '')
   final String name;
 
   const UpdateUserDto({

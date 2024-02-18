@@ -7,6 +7,8 @@ part 'update_profile_image_dto.g.dart';
 class UpdateProfileImageDto extends Equatable {
   @JsonKey(defaultValue: '')
   final String imageLink;
+
+  @JsonKey(defaultValue: '')
   final String storageUuid;
 
   const UpdateProfileImageDto({

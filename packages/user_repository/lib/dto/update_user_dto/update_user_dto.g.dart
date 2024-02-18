@@ -9,7 +9,7 @@ part of 'update_user_dto.dart';
 UpdateUserDto _$UpdateUserDtoFromJson(Map<String, dynamic> json) =>
     UpdateUserDto(
       username: json['username'] as String? ?? '',
-      name: json['name'] as String,
+      name: json['name'] as String? ?? '',
     );
 
 Map<String, dynamic> _$UpdateUserDtoToJson(UpdateUserDto instance) =>
