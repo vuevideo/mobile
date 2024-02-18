@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'package:authentication_repository/model/model.dart';
+import 'package:models/models.dart';
 import 'package:const_date_time/const_date_time.dart';
 
 part 'credentials.g.dart';
