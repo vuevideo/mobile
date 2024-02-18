@@ -1,1 +1,2 @@
 export 'update_email_dto/update_email_dto.dart';
+export 'update_profile_image_dto/update_profile_image_dto.dart';
