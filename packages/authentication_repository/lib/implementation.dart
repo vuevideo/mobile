@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:models/models.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:log/log.dart';
@@ -109,15 +110,9 @@ class AuthenticationRepository {
     // Prepare URI for the request.
     Uri uri = Uri.parse("$_apiUrl/api/v1/auth");
 
-    // Prepare authorization headers.
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-    };
-
     // Send the post request to the server.
     http.Response response = await http.post(
       uri,
-      // headers: headers,
       body: createAccountDto.toJson(),
     );
 

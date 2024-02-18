@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:models/models.dart';
 import 'package:hive/hive.dart';
 import 'package:log/log.dart';
 
