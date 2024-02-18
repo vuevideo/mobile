@@ -24,6 +24,8 @@ dependencies:
     path: packages/form_inputs
   log:
     path: packages/log
+  models:
+    path: packages/models
   go_router: ^13.1.0
 
 dev_dependencies:

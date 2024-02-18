@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:models/models.dart';
 
 import 'package:mobile/features/app/app.dart';
 import 'firebase_options.dart';
