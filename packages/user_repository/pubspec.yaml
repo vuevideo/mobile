@@ -10,7 +10,7 @@ dependencies:
   equatable: ^2.0.0
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
-  http: ^1.1.2
+  http: ^1.2.0
   const_date_time: ^1.1.0
   cloud_firestore: ^4.15.4
   log:
@@ -19,5 +19,6 @@ dependencies:
     path: ../models
 
 dev_dependencies:
-  build_runner: ^2.3.3
+  build_runner: ^2.4.8
   json_serializable: ^6.6.0
+  mockito: ^5.4.4
