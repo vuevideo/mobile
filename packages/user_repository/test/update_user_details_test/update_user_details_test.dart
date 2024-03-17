@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:models/account/account.dart';
+import 'package:models/models.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 
 /// Mocks
 import 'update_user_details_test.mocks.dart';
@@ -38,6 +40,7 @@ final Map<String, String> testingHeaders = {
   http.Client,
   firebase_auth.FirebaseAuth,
   firebase_auth.User,
+  firebase_storage.FirebaseStorage,
 ])
 void main() {
   group('updateUserDetails()', () {
@@ -45,6 +48,7 @@ void main() {
     // Mocking Firebase Auth calls
     final firebaseAuth = MockFirebaseAuth();
     final firebaseUser = MockUser();
+    final firebaseStorage = MockFirebaseStorage();
 
     when(firebaseAuth.currentUser).thenReturn(firebaseUser);
     when(firebaseUser.getIdToken())
@@ -58,6 +62,7 @@ void main() {
         firebaseAuth: firebaseAuth,
         apiUrl: testingUrl,
         client: client,
+        firebaseStorage: firebaseStorage,
       );
 
       when(
@@ -92,6 +97,7 @@ void main() {
         firebaseAuth: firebaseAuth,
         apiUrl: testingUrl,
         client: client,
+        firebaseStorage: firebaseStorage,
       );
       when(
         client.put(
@@ -124,6 +130,7 @@ void main() {
         firebaseAuth: firebaseAuth,
         apiUrl: testingUrl,
         client: client,
+        firebaseStorage: firebaseStorage,
       );
       when(
         client.put(
