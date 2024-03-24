@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:meta/meta.dart';
 
 import 'package:user_repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -80,7 +81,6 @@ class UserRepository {
 
     // Decode JSON and create object based on it.
     dynamic jsonResponse = json.decode(response.body);
-    log.i(jsonResponse);
     Account account = Account.fromJson(jsonResponse);
 
     // Return account.
@@ -137,9 +137,83 @@ class UserRepository {
     }
   }
 
+  /// Upload user email address passed by [updateEmailDto]
+  ///
+  /// Throws [UpdateEmailAddressFailure] if any errors according to the server.
+  Future<void> updateEmailAddress({
+    required UpdateEmailDto updateEmailDto,
+    required String password,
+  }) async {
+    try {
+      firebase_auth.User? loggedInUser = await this._firebaseAuth.currentUser;
+
+      if (loggedInUser != null) {
+        firebase_auth.AuthCredential authCredential =
+            firebase_auth.EmailAuthProvider.credential(
+          email: loggedInUser.email!,
+          password: password,
+        );
+
+        await loggedInUser.reauthenticateWithCredential(
+          authCredential,
+        );
+
+        await loggedInUser.verifyBeforeUpdateEmail(
+          updateEmailDto.emailAddress,
+        );
+      }
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw UpdateEmailAddressFailure.fromCode(e.code);
+    } catch (error) {
+      log.e(
+        "UserRepository:updateEmailAddress Error",
+        error: error,
+      );
+
+      throw const UpdateEmailAddressFailure();
+    }
+  }
+
+  /// Upload user password passed by [updatePasswordDto]
+  ///
+  /// Throws [UpdatePasswordFailure] if any errors according to the server.
+  Future<void> updatePassword({
+    required UpdatePasswordDto updatePasswordDto,
+  }) async {
+    try {
+      firebase_auth.User? loggedInUser = await this._firebaseAuth.currentUser;
+
+      if (loggedInUser != null) {
+        firebase_auth.AuthCredential authCredential =
+            firebase_auth.EmailAuthProvider.credential(
+          email: loggedInUser.email!,
+          password: updatePasswordDto.oldPassword,
+        );
+
+        await loggedInUser.reauthenticateWithCredential(
+          authCredential,
+        );
+
+        await loggedInUser.updatePassword(
+          updatePasswordDto.newPassword,
+        );
+      }
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw UpdatePasswordFailure.fromCode(e.code);
+    } catch (error) {
+      log.e(
+        "UserRepository:updatePassword Error",
+        error: error,
+      );
+
+      throw const UpdatePasswordFailure();
+    }
+  }
+
   /// Update user profile image using [updateProfileImageDto].
   ///
   /// Throws [ServerException] if any errors according to the server.
+  @visibleForTesting
   Future<ProfileImage> updateProfileImage({
     required UpdateProfileImageDto updateProfileImageDto,
   }) async {
@@ -170,7 +244,6 @@ class UserRepository {
 
     // Decode JSON and create object based on it.
     dynamic jsonResponse = json.decode(response.body);
-    log.i(jsonResponse);
     ProfileImage profileImage = ProfileImage.fromJson(jsonResponse);
 
     // Return Profile Image.
@@ -180,6 +253,7 @@ class UserRepository {
   /// Delete user profile image using [user].
   ///
   /// Throws [ServerException] if any errors according to the server.
+  @visibleForTesting
   Future<void> deleteProfileImage({
     required Account account,
   }) async {
